@@ -4,7 +4,7 @@
 
 .globl _start
 _start:
- pushl $3
+ pushl $0
  pushl $2
  call power
  addl $8, %esp
@@ -24,6 +24,8 @@ _start:
 power:
  pushl %ebp
  movl %esp, %ebp
+ cmpl $0, 12(%ebp)
+ je return_one
  sub $4, %esp
 
  movl 8(%ebp), %ebx
@@ -41,6 +43,11 @@ power_loop_start:
 
  decl %ecx
  jmp power_loop_start
+
+return_one:
+ movl $1, %eax
+ popl %ebp
+ ret
 
 end_power:
  movl -4(%ebp), %eax
